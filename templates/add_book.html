@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-center">Add a New Book</h1>
+<hr>
+<form method="POST" action="{{ url_for('add_book') }}">
+    <div class="mb-3">
+        <label for="title" class="form-label">Book Title</label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="Enter book title" required>
+    </div>
+    <div class="mb-3">
+        <label for="author" class="form-label">Author</label>
+        <input type="text" class="form-control" id="author" name="author" placeholder="Enter author name" required>
+    </div>
+    <div class="mb-3">
+        <label for="isbn" class="form-label">ISBN</label>
+        <input type="text" class="form-control" id="isbn" name="isbn" placeholder="Enter ISBN number" required>
+    </div>
+    <button type="submit" class="btn btn-success">Add Book</button>
+</form>
+{% endblock %}
