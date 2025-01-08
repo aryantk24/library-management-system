@@ -34,3 +34,4 @@ LibraryManagementSystem/
 1. Clone the directory to your local machine
 2. Switch to the repository
 3. Run app.py
+4. Use the app
