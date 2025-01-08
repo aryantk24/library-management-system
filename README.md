@@ -1,3 +1,5 @@
+## Subject project management with GIT
+
 # Library Management System
 A collaborative open-source project to manage library functionalities like adding books, searching books, borrowing, and returning them. Built using Flask and SQLite.
 
