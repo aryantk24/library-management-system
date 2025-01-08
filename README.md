@@ -29,3 +29,8 @@ LibraryManagementSystem/
 │       └── script.js
 ├── README.md
 └── requirements.txt
+
+## How to run
+1. Clone the directory to your local machine
+2. Switch to the repository
+3. Run app.py
