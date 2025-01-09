@@ -35,3 +35,8 @@ LibraryManagementSystem/
 2. Switch to the repository
 3. Run app.py
 4. Use the app
+
+## Prerequisites
+- Python 3.x
+- Flask
+- SQLite
