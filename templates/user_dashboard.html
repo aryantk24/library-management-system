@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Welcome, {{ session['user'] }}</h1>
+
+<h3>Your Borrowed Books</h3>
+{% if user_books %}
+<ul>
+    {% for book in user_books %}
+    <li>{{ book[1] }} by {{ book[2] }} (Due: {{ book[6] }})</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>You have no borrowed books.</p>
+{% endif %}
+
+<h3>Overdue Books</h3>
+{% if overdue_books %}
+<ul>
+    {% for book in overdue_books %}
+    <li>{{ book[1] }} (Due: {{ book[6] }})</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No overdue books.</p>
+{% endif %}
+
+<h3>Available Books</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book[1] }}</td>
+            <td>{{ book[2] }}</td>
+            <td>{{ book[3] }}</td>
+            <td>
+                {% if book[4] == 1 %}
+                <a href="{{ url_for('borrow_book', book_id=book[0]) }}" class="btn btn-primary btn-sm">Borrow</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
