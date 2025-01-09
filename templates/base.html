@@ -25,9 +25,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('add_book') }}">Add Book</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('search_book') }}">Search Book</a>
-                    </li>
+                    {% if 'user' not in session %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('user_dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

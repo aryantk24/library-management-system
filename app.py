@@ -1,117 +1,127 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import Database
 
-# Initialize the Flask application
+
 app = Flask(__name__)
-
-# Secret key for session management and flash messages
 app.secret_key = 'library_secret_key'
-
-# Create an instance of the Database class for database operations
 db = Database()
 
-# Route for the home page
-@app.route('/')
-def index():
-    """
-    Display the home page with a list of all books.
-    """
-    books = db.get_all_books()  # Fetch all books from the database
-    return render_template('index.html', books=books)
 
-# Route for adding a new book
 @app.route('/add_book', methods=['GET', 'POST'])
 def add_book():
-    """
-    Add a new book to the library. 
-    Handles both GET and POST requests:
-    - GET: Display the form to add a book.
-    - POST: Save the book details to the database.
-    """
     if request.method == 'POST':
-        # Get book details from the submitted form
         title = request.form['title']
         author = request.form['author']
         isbn = request.form['isbn']
-        
-        # Add the book to the database
         db.add_book(title, author, isbn)
-        
-        # Flash success message
         flash('Book added successfully!')
-        
-        # Redirect to the home page
         return redirect(url_for('index'))
-    
-    # Render the form to add a book
     return render_template('add_book.html')
 
-# Route for searching books
-@app.route('/search', methods=['GET', 'POST'])
-def search_book():
-    """
-    Search for books by title, author, or ISBN.
-    Handles both GET and POST requests:
-    - GET: Display the search form.
-    - POST: Perform the search and display results.
-    """
-    if request.method == 'POST':
-        # Get the search query from the form
-        query = request.form['query']
-        
-        # Search for books matching the query in the database
-        results = db.search_books(query)
-        
-        # Render the search results page
-        return render_template('search_book.html', books=results, query=query)
-    
-    # Render an empty search page for GET requests
-    return render_template('search_book.html', books=[])
-
-# Route for deleting a book
 @app.route('/delete_book/<int:book_id>')
 def delete_book(book_id):
-    """
-    Delete a book from the library by its ID.
-    """
-    db.delete_book(book_id)  # Remove the book from the database
-    
-    # Flash success message
+    db.delete_book(book_id)
     flash('Book deleted successfully!')
-    
-    # Redirect to the home page
+    return redirect(url_for('index'))
+@app.route('/send_notification/<int:book_id>')
+def send_notification(book_id):
+    # Logic to send notification to the user
+    message = db.send_notification(book_id)
+    flash(message)
     return redirect(url_for('index'))
 
-# Route for borrowing a book
-@app.route('/borrow_book/<int:book_id>', methods=['POST'])
+@app.route('/generate_issue/<int:book_id>')
+def generate_issue(book_id):
+    # Logic to generate an issue alert
+    message = db.generate_issue_alert(book_id)
+    flash(message)
+    return redirect(url_for('index'))
+
+@app.route('/update_book/<int:book_id>', methods=['GET', 'POST'])
+def update_book(book_id):
+    if request.method == 'POST':
+        title = request.form['title']
+        author = request.form['author']
+        isbn = request.form['isbn']
+        db.update_book(book_id, title, author, isbn)
+        flash('Book updated successfully!')
+        return redirect(url_for('index'))
+    book = next((b for b in db.get_all_books() if b[0] == book_id), None)
+    return render_template('update_book.html', book=book)
+
+
+
+@app.route('/')
+def index():
+    books = db.get_all_books()
+    users = db.get_all_users()  # Fetch registered users
+    overdue_books = db.get_overdue_books()  # Fetch overdue books
+    return render_template('index.html', books=books, users=users, overdue_books=overdue_books)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        name = request.form['name']
+        password = request.form['password']
+        try:
+            db.register_user(name, password)
+            flash('Registration successful! Please login.')
+            return redirect(url_for('login'))
+        except:
+            flash('Username already exists.')
+            return redirect(url_for('register'))
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        name = request.form['name']
+        password = request.form['password']
+        user = db.authenticate_user(name, password)
+        if user:
+            session['user'] = name
+            flash('Login successful!')
+            return redirect(url_for('user_dashboard'))
+        flash('Invalid credentials.')
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    flash('Logged out successfully.')
+    return redirect(url_for('login'))
+
+@app.route('/user_dashboard')
+def user_dashboard():
+    if 'user' not in session:
+        flash('Please login first.')
+        return redirect(url_for('login'))
+    books = db.get_all_books()
+    user_books = db.get_user_books(session['user'])
+    overdue_books = db.get_overdue_books_for_user(session['user'])
+    return render_template('user_dashboard.html', books=books, user_books=user_books, overdue_books=overdue_books)
+
+@app.route('/borrow_book/<int:book_id>')
 def borrow_book(book_id):
-    """
-    Borrow a book from the library by its ID.
-    - POST request: Requires the user's name.
-    """
-    user_name = request.form['user']  # Get the user's name from the form
-    
-    if db.borrow_book(book_id, user_name):  # Attempt to borrow the book
-        flash('Book borrowed successfully!')  # Success message
+    if 'user' not in session:
+        flash('Please login first.')
+        return redirect(url_for('login'))
+    if db.borrow_book(book_id, session['user']):
+        flash('Book borrowed successfully!')
     else:
-        flash('Book is already borrowed!')  # Error message if book is unavailable
-    
-    # Redirect to the home page
-    return redirect(url_for('index'))
+        flash('Book is not available.')
+    return redirect(url_for('user_dashboard'))
 
-# Route for returning a borrowed book
-@app.route('/return_book/<int:book_id>', methods=['POST'])
+@app.route('/return_book/<int:book_id>')
 def return_book(book_id):
-    """
-    Return a borrowed book to the library by its ID.
-    """
-    if db.return_book(book_id):  # Attempt to return the book
-        flash('Book returned successfully!')  # Success message
+    if 'user' not in session:
+        flash('Please login first.')
+        return redirect(url_for('login'))
+    if db.return_book(book_id):
+        flash('Book returned successfully!')
     else:
-        flash('Book is not borrowed!')  # Error message if the book wasn't borrowed
-    
-    # Redirect to the home page
-    return redirect(url_for('index'))
+        flash('Error returning the book.')
+    return redirect(url_for('user_dashboard'))
 
 # Entry point of the application
 if __name__ == '__main__':
