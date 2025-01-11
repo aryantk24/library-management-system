@@ -1,21 +1,51 @@
-{% extends "base.html" %}
-
-{% block content %}
-<h1 class="text-center">Add a New Book</h1>
-<hr>
-<form method="POST" action="{{ url_for('add_book') }}">
-    <div class="mb-3">
-        <label for="title" class="form-label">Book Title</label>
-        <input type="text" class="form-control" id="title" name="title" placeholder="Enter book title" required>
-    </div>
-    <div class="mb-3">
-        <label for="author" class="form-label">Author</label>
-        <input type="text" class="form-control" id="author" name="author" placeholder="Enter author name" required>
-    </div>
-    <div class="mb-3">
-        <label for="isbn" class="form-label">ISBN</label>
-        <input type="text" class="form-control" id="isbn" name="isbn" placeholder="Enter ISBN number" required>
-    </div>
-    <button type="submit" class="btn btn-success">Add Book</button>
-</form>
+{% extends "base.html" %} {% block content %}
+<div
+  class="h-[79vh] flex items-center justify-center flex-col border-2 rounded-xl"
+>
+  <div class="border border-green-300 rounded-xl p-8">
+    <h1 class="text-center text-3xl mb-4 text-white">Add a New Book</h1>
+    <form
+      method="POST"
+      action="{{ url_for('add_book') }}"
+      class="flex flex-col gap-4"
+    >
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control px-8 py-2 rounded-lg"
+          id="title"
+          name="title"
+          placeholder="Enter book title"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control px-8 py-2 rounded-lg"
+          id="author"
+          name="author"
+          placeholder="Enter author name"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control px-8 py-2 rounded-lg"
+          id="isbn"
+          name="isbn"
+          placeholder="Enter ISBN number"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn bg-green-200 text-black hover:text-white"
+      >
+        Add Book
+      </button>
+    </form>
+  </div>
+</div>
 {% endblock %}

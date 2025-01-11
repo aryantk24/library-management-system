@@ -56,6 +56,9 @@ def index():
     books = db.get_all_books()
     users = db.get_all_users()  # Fetch registered users
     overdue_books = db.get_overdue_books()  # Fetch overdue books
+    print("Books:", books)
+    print("Users:", users)
+    print("Overdue Books:", overdue_books)
     return render_template('index.html', books=books, users=users, overdue_books=overdue_books)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -122,6 +125,19 @@ def return_book(book_id):
     else:
         flash('Error returning the book.')
     return redirect(url_for('user_dashboard'))
+
+@app.route('/search', methods=['POST'])
+def search_book():
+    query = request.form.get('query')
+    # Perform search logic using SQLite
+    with db.connect() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT * FROM books
+            WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ?
+        ''', ('%' + query + '%', '%' + query + '%', '%' + query + '%'))
+        books = cursor.fetchall()
+    return render_template('search_book.html', books=books, query=query)
 
 # Entry point of the application
 if __name__ == '__main__':

@@ -1,24 +1,15 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<h1>Search Books</h1>
-<form action="{{ url_for('search_book') }}" method="post" class="mt-3">
-    <div class="input-group">
-        <input type="text" name="query" class="form-control" placeholder="Search by title, author, or ISBN">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-</form>
-
-{% if query %}
-    <h2 class="mt-4">Search Results for "{{ query }}":</h2>
-    {% if books %}
-        <ul>
-            {% for book in books %}
-                <li>{{ book.title }} by {{ book.author }} (ISBN: {{ book.isbn }})</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No results found for "{{ query }}".</p>
-    {% endif %}
-{% endif %}
-{% endblock %}
+{% extends 'base.html' %} {% block content %}
+<h1 class="text-3xl ml-8 text-white">Search Results for "{{ query }}"</h1>
+{% if books %}
+<ul>
+  {% for book in books %}
+  <li class="ml-16 text-2xl text-gray-400">
+    {{ book[1] }} by {{ book[2] }} (ISBN: {{ book[3] }})
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="text-3xl text-white text-center">
+  No results found for "{{ query }}".
+</p>
+{% endif %} {% endblock %}
