@@ -1,15 +1,19 @@
 {% extends 'base.html' %} {% block content %}
-<h1 class="text-3xl ml-8 text-white">Search Results for "{{ query }}"</h1>
-{% if books %}
-<ul>
-  {% for book in books %}
-  <li class="ml-16 text-2xl text-gray-400">
-    {{ book[1] }} by {{ book[2] }} (ISBN: {{ book[3] }})
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p class="text-3xl text-white text-center">
-  No results found for "{{ query }}".
-</p>
+<div class="h-[79vh] pt-12">
+  <h1 class="text-3xl ml-8 text-white mb-8">
+    Search Results for "{{ query }}"
+  </h1>
+  {% if books %}
+  <ul>
+    {% for book in books %}
+    <li class="ml-16 text-3xl text-gray-400">
+      {{ book[1] }} by {{ book[2] }} (ISBN: {{ book[3] }})
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="text-3xl text-white text-center">
+    No results found for "{{ query }}".
+  </p>
+</div>
 {% endif %} {% endblock %}

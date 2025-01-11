@@ -115,28 +115,35 @@
     <div class="container mt-4">
       {% with messages = get_flashed_messages() %} {% if messages %}
       <div
-        class="alert alert-info alert-dismissible fade show text-3xl font-thin"
+        class="alert alert-info flex items-center justify-between p-4 rounded-lg shadow-lg text-lg font-thin"
         role="alert"
       >
-        {{ messages[0] }}
+        <div class="flex items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            class="h-6 w-6 mr-2 stroke-current"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <span>{{ messages[0] }}</span>
+        </div>
         <button
           type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
+          class="btn btn-circle btn-sm text-white bg-black hover:text-black hover:bg-transparent"
+          onclick="this.parentElement.style.display='none';"
           aria-label="Close"
-        ></button>
+        >
+          ✕
+        </button>
       </div>
-      {% endif %} {% endwith %} {% if query %}
-      <h2 class="mt-4">Search Results for "{{ query }}":</h2>
-      {% if books %}
-      <ul>
-        {% for book in books %}
-        <li>{{ book.title }} by {{ book.author }} (ISBN: {{ book.isbn }})</li>
-        {% endfor %}
-      </ul>
-      {% else %}
-      <p>No results found for "{{ query }}".</p>
-      {% endif %} {% endif %}
+      {% endif %} {% endwith %} {% block content %} {% endblock %}
     </div>
 
     <!-- Footer -->
