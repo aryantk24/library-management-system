@@ -1,9 +1,7 @@
-Flask==2.3.2            # Web framework for Python
-Flask-WTF==1.0.1        # For handling forms in templates
-Flask-Session==0.4.0    # For session management
-Jinja2==3.1.2           # HTML templating
-WTForms==3.0.1          # Form validation
-python-dotenv==1.0.0    # To manage environment variables
-bcrypt==4.0.1           # Password hashing
-sqlite3                 # Built-in with Python (not required in requirements.txt)
-tailwindcss==3.0.24     # Tailwind CSS for styling (optional if already included via CDN)
+Flask==2.3.2            # Core web framework
+Flask-WTF==1.0.1        # Form handling and validation
+Flask-Session==0.4.0    # Session management
+Jinja2==3.1.2           # Templating engine
+WTForms==3.0.1          # Advanced form validation and handling
+python-dotenv==1.0.0    # Manage environment variables
+bcrypt==4.0.1           # Secure password hashing
