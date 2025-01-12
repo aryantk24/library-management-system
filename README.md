@@ -48,8 +48,8 @@ LibraryManagementSystem/
 ### **Clone the Repository**
 To get a local copy of the project, run:
 ```bash
-git clone https://github.com/<your-username>/LibraryManagementSystem.git
-cd LibraryManagementSystem
+git clone https://github.com/aryantk24/library-management-system.git
+cd library-management-system
 ```
 
 ### **Install Dependencies**
@@ -81,12 +81,12 @@ If the Docker image is available on Docker Hub, pull and run the container:
 
 ### **Pull the Image**
 ```bash
-docker pull <your-dockerhub-username>/library-management
+docker pull purpledrip/library-management
 ```
 
 ### **Run the Image**
 ```bash
-docker run -p 4000:5000 <your-dockerhub-username>/library-management
+docker run -p 4000:5000 purpledrip/library-management
 ```
 ---
 
@@ -117,7 +117,7 @@ http://localhost:4000
 1. Fork the repository on GitHub.
 2. Clone your fork:
    ```bash
-   git clone https://github.com/<your-username>/LibraryManagementSystem.git
+   git clone https://github.com/aryantk24/library-management-system.git
    ```
 
 ### **Create a Branch**
