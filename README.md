@@ -3,7 +3,6 @@
 
 A web-based **Library Management System** built using **Flask**. This application allows users to manage books, search for available books, and update book information. The project is fully containerized using Docker for easy deployment and sharing.
 
----
 
 ## **Project Structure**
 
@@ -11,7 +10,8 @@ A web-based **Library Management System** built using **Flask**. This applicatio
 LibraryManagementSystem/
 ├── static/                   # Static assets
 │   ├── styles.css            # Stylesheet
-│
+│   ├── images/               # Holds Snapshots
+|
 ├── templates/                # HTML templates
 │   ├── add_book.html         # Add new book page
 │   ├── base.html             # Base template layout
