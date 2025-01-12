@@ -1,9 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import Database
+from flask_cors import CORS
+
+
 
 
 app = Flask(__name__)
 app.secret_key = 'library_secret_key'
+CORS(app)
 db = Database()
 
 
@@ -142,4 +146,4 @@ def search_book():
 # Entry point of the application
 if __name__ == '__main__':
     db.initialize_tables()  # Initialize the database tables if not already created
-    app.run(debug=True)  # Run the application in debug mode
+    app.run(host="0.0.0.0", port=5000,debug=True)  # Run the application in debug mode

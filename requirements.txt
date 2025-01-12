@@ -5,3 +5,5 @@ Jinja2==3.1.2           # Templating engine
 WTForms==3.0.1          # Advanced form validation and handling
 python-dotenv==1.0.0    # Manage environment variables
 bcrypt==4.0.1           # Secure password hashing
+Flask-CORS==3.0.10
+
