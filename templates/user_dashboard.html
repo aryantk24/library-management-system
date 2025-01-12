@@ -1,53 +1,59 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<div class="min-h-[89vh] bg-[#212121]">
+  <h1 class="text-5xl text-white">Welcome, {{ session['user'] }}</h1>
 
-{% block content %}
-<h1>Welcome, {{ session['user'] }}</h1>
-
-<h3>Your Borrowed Books</h3>
-{% if user_books %}
-<ul>
+  <h3 class="text-2xl ml-8 mt-4">Your Borrowed Books</h3>
+  {% if user_books %}
+  <ul class="ml-12">
     {% for book in user_books %}
     <li>{{ book[1] }} by {{ book[2] }} (Due: {{ book[6] }})</li>
     {% endfor %}
-</ul>
-{% else %}
-<p>You have no borrowed books.</p>
-{% endif %}
+  </ul>
+  {% else %}
+  <p class="ml-12">You have no borrowed books.</p>
+  {% endif %}
 
-<h3>Overdue Books</h3>
-{% if overdue_books %}
-<ul>
+  <h3 class="ml-8 text-2xl mt-4">Overdue Books</h3>
+  {% if overdue_books %}
+  <ul class="ml-12">
     {% for book in overdue_books %}
     <li>{{ book[1] }} (Due: {{ book[6] }})</li>
     {% endfor %}
-</ul>
-{% else %}
-<p>No overdue books.</p>
-{% endif %}
+  </ul>
+  {% else %}
+  <p class="ml-12">No overdue books.</p>
+  {% endif %}
 
-<h3>Available Books</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>ISBN</th>
-            <th>Actions</th>
+  <h3 class="text-3xl text-gray-300 my-12 ml-8">Available Books</h3>
+  <div class="min-h-min w-full border rounded-xl border-2 p-8">
+    <table class="table">
+      <thead>
+        <tr class="text-white">
+          <th>Title</th>
+          <th>Author</th>
+          <th>ISBN</th>
+          <th>Actions</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         {% for book in books %}
-        <tr>
-            <td>{{ book[1] }}</td>
-            <td>{{ book[2] }}</td>
-            <td>{{ book[3] }}</td>
-            <td>
-                {% if book[4] == 1 %}
-                <a href="{{ url_for('borrow_book', book_id=book[0]) }}" class="btn btn-primary btn-sm">Borrow</a>
-                {% endif %}
-            </td>
+        <tr class="hover hover:text-green-300">
+          <td>{{ book[1] }}</td>
+          <td>{{ book[2] }}</td>
+          <td>{{ book[3] }}</td>
+          <td>
+            {% if book[4] == 1 %}
+            <a
+              href="{{ url_for('borrow_book', book_id=book[0]) }}"
+              class="btn bg-green-200 border border-green-200 btn-sm text-black hover:text-white hover:border-white"
+              >Borrow</a
+            >
+            {% endif %}
+          </td>
         </tr>
         {% endfor %}
-    </tbody>
-</table>
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}
