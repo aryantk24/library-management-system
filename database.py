@@ -168,3 +168,14 @@ class Database:
             cursor = conn.cursor()
             today = datetime.now().strftime('%Y-%m-%d')
             return cursor.execute('SELECT * FROM books WHERE borrowed_by = ? AND due_date < ?', (user_name, today)).fetchall()
+
+    def search_books(self, query):
+        query = "%" + query + "%"  # Use wildcards for partial matching
+        with self.connect() as conn:
+            cursor = conn.cursor()
+            # Perform the search across title, author, and isbn columns
+            books = cursor.execute('''
+                SELECT * FROM books
+                WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ?
+            ''', (query, query, query)).fetchall()
+            return books

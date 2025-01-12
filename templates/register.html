@@ -1,16 +1,37 @@
-{% extends "base.html" %}
-
-{% block content %}
-<h1>Register</h1>
-<form method="POST">
-    <div class="mb-3">
-        <label for="name" class="form-label">Username</label>
-        <input type="text" class="form-control" id="name" name="name" required>
-    </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+{% extends "base.html" %} {% block content %}
+<div
+  class="h-[79vh] flex items-center justify-center flex-col border-2 rounded-xl"
+>
+  <div class="shadow-2xl bg-[#262626] rounded-xl p-8">
+    <h1 class="text-center text-3xl mb-8 text-white">Register</h1>
+    <form method="POST" class="flex flex-col gap-4">
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control px-8 py-2 rounded-2xl"
+          id="name"
+          name="name"
+          required
+          placeholder="Username"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="password"
+          class="form-control px-8 py-2 rounded-2xl"
+          id="password"
+          name="password"
+          required
+          placeholder="Password"
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn bg-green-200 text-black hover:text-white"
+      >
+        Register
+      </button>
+    </form>
+  </div>
+</div>
 {% endblock %}

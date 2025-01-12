@@ -1,20 +1,54 @@
-{% extends "base.html" %}
-
-{% block content %}
-<h1>Update Book</h1>
-<form method="POST" action="{{ url_for('update_book', book_id=book[0]) }}">
-    <div class="mb-3">
-        <label for="title" class="form-label">Book Title</label>
-        <input type="text" class="form-control" id="title" name="title" value="{{ book[1] }}" required>
-    </div>
-    <div class="mb-3">
-        <label for="author" class="form-label">Author</label>
-        <input type="text" class="form-control" id="author" name="author" value="{{ book[2] }}" required>
-    </div>
-    <div class="mb-3">
-        <label for="isbn" class="form-label">ISBN</label>
-        <input type="text" class="form-control" id="isbn" name="isbn" value="{{ book[3] }}" required>
-    </div>
-    <button type="submit" class="btn btn-success">Update Book</button>
-</form>
+{% extends "base.html" %} {% block content %}
+<div
+  class="h-[79vh] flex items-center justify-center flex-col border-2 rounded-xl"
+>
+  <div class="shadow-2xl bg-[#262626] rounded-xl p-8">
+    <h1 class="text-center text-3xl mb-8 text-white">Update Book</h1>
+    <form
+      method="POST"
+      action="{{ url_for('update_book', book_id=book[0]) }}"
+      class="flex flex-col gap-4"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label ml-4">Book Title</label>
+        <input
+          type="text"
+          class="form-control mt-2 px-8 py-2 rounded-2xl"
+          id="title"
+          name="title"
+          value="{{ book[1] }}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="author" class="form-label ml-4">Author</label>
+        <input
+          type="text"
+          class="form-control mt-2 px-8 py-2 rounded-2xl"
+          id="author"
+          name="author"
+          value="{{ book[2] }}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="isbn" class="form-label ml-4">ISBN</label>
+        <input
+          type="text"
+          class="form-control mt-2 px-8 py-2 rounded-2xl"
+          id="isbn"
+          name="isbn"
+          value="{{ book[3] }}"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn bg-green-200 text-black hover:text-white"
+      >
+        Update Book
+      </button>
+    </form>
+  </div>
+</div>
 {% endblock %}
